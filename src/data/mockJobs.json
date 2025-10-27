@@ -1,0 +1,55 @@
+{
+  "data": [
+    {
+      "id": "job_20251001_0001",
+      "slug": "frontend-developer",
+      "title": "Frontend Developer",
+      "status": "active",
+      "salary_range": {
+        "min": 7000000,
+        "max": 8000000,
+        "currency": "IDR",
+        "display_text": "Rp7.000.000 - Rp8.000.000"
+      },
+      "list_card": {
+        "badge": "Active",
+        "started_on_text": "Started on 1 Oct 2025",
+        "cta": "Manage Job"
+      }
+    },
+    {
+      "id": "job_20251005_0002",
+      "slug": "backend-engineer",
+      "title": "Backend Engineer",
+      "status": "inactive",
+      "salary_range": {
+        "min": 9000000,
+        "max": 11000000,
+        "currency": "IDR",
+        "display_text": "Rp9.000.000 - Rp11.000.000"
+      },
+      "list_card": {
+        "badge": "Inactive",
+        "started_on_text": "Created on 5 Oct 2025",
+        "cta": "Edit Job"
+      }
+    },
+    {
+      "id": "job_20251012_0003",
+      "slug": "ui-ux-designer",
+      "title": "UI/UX Designer",
+      "status": "draft",
+      "salary_range": {
+        "min": 6000000,
+        "max": 7500000,
+        "currency": "IDR",
+        "display_text": "Rp6.000.000 - Rp7.500.000"
+      },
+      "list_card": {
+        "badge": "Draft",
+        "started_on_text": "Drafted on 12 Oct 2025",
+        "cta": "Continue Editing"
+      }
+    }
+  ]
+}

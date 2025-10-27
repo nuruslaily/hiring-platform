@@ -1,0 +1,3 @@
+@import "react-day-picker/style.css";
+@import "tailwindcss";
+@plugin "daisyui";

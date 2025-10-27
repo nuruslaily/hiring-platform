@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "role": "admin",
+      "email": "admin@rakamin.com",
+      "password": "admin123",
+      "name": "Admin Rakamin",
+      "avatar": "https://i.pravatar.cc/150?img=12"
+    },
+    {
+      "id": 2,
+      "role": "jobseeker",
+      "email": "budi.jobseeker@gmail.com",
+      "password": "budi123",
+      "name": "Budi Santoso",
+      "avatar": "https://i.pravatar.cc/150?img=8"
+    },
+    {
+      "id": 3,
+      "role": "jobseeker",
+      "email": "sari.jobseeker@gmail.com",
+      "password": "sari123",
+      "name": "Sari Puspita",
+      "avatar": "https://i.pravatar.cc/150?img=15"
+    }
+  ]
+}
