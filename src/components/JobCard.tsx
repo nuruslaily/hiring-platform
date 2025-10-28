@@ -6,7 +6,6 @@ import type { Job } from "../types/job";
 
 interface JobCardProps {
   job: Job;
-  // onStatusChange?: (jobId: string, newStatus: Job["status"]) => void;
   userType?: "admin" | "jobseeker";
 }
 
@@ -19,7 +18,6 @@ const formatRupiahDisplay = (value: string): string => {
 
 const JobCard: React.FC<JobCardProps> = ({
   job,
-  // onStatusChange,
   userType = "admin",
 }) => {
   const navigate = useNavigate();
@@ -45,12 +43,6 @@ const JobCard: React.FC<JobCardProps> = ({
         return "text-gray-600";
     }
   };
-
-  // const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   if (onStatusChange && userType === "admin") {
-  //     onStatusChange(job.id, e.target.value as Job["status"]);
-  //   }
-  // };
 
   return (
     <div
@@ -81,7 +73,7 @@ const JobCard: React.FC<JobCardProps> = ({
         {userType === "jobseeker" && (
           <img
             src={logo}
-            alt="Rakamin"
+            alt="logo"
             className="w-8 h-8 md:w-10 md:h-10 border-[#E0E0E0] border-2 rounded-lg object-cover shrink-0"
           />
         )}

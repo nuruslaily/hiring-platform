@@ -12,14 +12,14 @@ interface JobListProps {
   query: string;
   onQueryChange: (query: string) => void;
   // onStatusChange: (jobId: string, newStatus: Job["status"]) => void;
-  onCreateJob: (job: Omit<Job, "id" | "createdAt">) => void;
+  // onCreateJob: (job: Omit<Job, "id" | "createdAt">) => void;
 }
 
 const JobList: React.FC<JobListProps> = ({
   query,
   onQueryChange,
   // onStatusChange,
-  onCreateJob,
+  // onCreateJob,
 }) => {
   const navigate = useNavigate();
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -86,6 +86,18 @@ const JobList: React.FC<JobListProps> = ({
     if (job) {
       navigate(`/apply/${job.id}`, { state: { job } });
     }
+  };
+
+  const addNewJob = (updatedJobs: Job[]) => {
+    // const jobWithId: Job = {
+    //   ...newJob,
+    //   id: Date.now().toString(),
+    //   createdAt: new Date().toISOString(),
+    // };
+    // const updatedJobs = [...jobs, jobWithId];
+    // localStorage.setItem("jobs", JSON.stringify(updatedJobs));
+    setJobs(updatedJobs);
+    toast.success("Job vacancy successfully created");
   };
 
   if (isMobile && role === "jobseeker" && showJobDetail && selectedJob) {
@@ -159,24 +171,12 @@ const JobList: React.FC<JobListProps> = ({
           </div>
         ) : (
           <div className="flex justify-center items-center min-h-[70vh]">
-            <EmptyJobState onCreateJob={onCreateJob} />
+            <EmptyJobState onCreateJob={addNewJob} />
           </div>
         )}
       </div>
     );
   }
-
-  const addNewJob = (newJob: Omit<Job, "id" | "createdAt">) => {
-    const jobWithId: Job = {
-      ...newJob,
-      id: Date.now().toString(),
-      createdAt: new Date().toISOString(),
-    };
-    const updatedJobs = [...jobs, jobWithId];
-    setJobs(updatedJobs);
-    localStorage.setItem("jobs", JSON.stringify(updatedJobs));
-    toast.success("Job vacancy successfully created");
-  };
 
   return (
     <div className="font-sans min-h-screen bg-gray-50">
@@ -184,7 +184,7 @@ const JobList: React.FC<JobListProps> = ({
         <div className="bg-white px-4 py-3 border-b border-gray-200 md:bg-transparent md:border-none flex justify-between">
           <form
             onSubmit={handleSearch}
-            className="relative w-full md:max-w-6xl flex justify-start items-center md:ml-5 gap-4 pt-2"
+            className="relative w-full md:max-w-5xl 2xl:max-w-6xl flex justify-start items-center md:ml-5 gap-4 pt-2"
           >
             <input
               type="text"
@@ -236,7 +236,7 @@ const JobList: React.FC<JobListProps> = ({
             </div>
           </div>
         ) : role === "admin" ? (
-          <div className="max-w-6xl w-full">
+          <div className="max-w-5xl 2xl:max-w-6xl w-full">
             {visibleJobs.length > 0 ? (
               ["active", "inactive", "draft"].map((status) => {
                 const statusJobs = visibleJobs.filter(
@@ -261,13 +261,13 @@ const JobList: React.FC<JobListProps> = ({
               })
             ) : (
               <div className="flex justify-center items-center min-h-[50vh]">
-                <EmptyJobState onCreateJob={onCreateJob} />
+                <EmptyJobState onCreateJob={addNewJob} />
               </div>
             )}
           </div>
         ) : (
           <div className="flex justify-center items-center min-h-[50vh]">
-            <EmptyJobState onCreateJob={onCreateJob} />
+            <EmptyJobState onCreateJob={addNewJob} />
           </div>
         )}
       </div>

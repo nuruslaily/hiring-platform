@@ -32,7 +32,7 @@ const EmptyJobState: React.FC<EmptyJobProps> = ({ onCreateJob }) => {
 
     localStorage.setItem("jobs", JSON.stringify(updatedJobs));
 
-    onCreateJob(newJob);
+    onCreateJob(updatedJobs);
     setShowModal(false);
   };
 

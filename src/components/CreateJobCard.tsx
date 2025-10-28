@@ -23,7 +23,7 @@ const CreateJobCard: React.FC<CreateJobCardProps> = ({ onCreateJob }) => {
 
     localStorage.setItem("jobs", JSON.stringify(updatedJobs));
 
-    onCreateJob(newJob);
+    onCreateJob(updatedJobs);
     setShowModal(false);
   };
 

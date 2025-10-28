@@ -4,20 +4,15 @@ import JobList from "./JobList";
 import { useNavigate } from "react-router-dom";
 import { mockCandidates } from "../data/candidates";
 import type { Job } from "../types/job";
-import { toast } from "react-toastify";
 
 const JobPages: React.FC = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [allJobs, setAllJobs] = useState<Job[]>([]);
-  // const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
-
-  // const [userName, setUserName] = useState("");
   const [userRole, setUserRole] = useState("");
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("isAuthenticated");
-    // const savedUserName = localStorage.getItem("userName");
     const savedUserRole =
       (localStorage.getItem("userRole") as "admin" | "jobseeker") ||
       "jobseeker";
@@ -28,7 +23,6 @@ const JobPages: React.FC = () => {
       return;
     }
 
-    // setUserName(savedUserName || "");
     setUserRole(savedUserRole);
   }, [navigate]);
 
@@ -65,28 +59,7 @@ const JobPages: React.FC = () => {
       );
     }
 
-    // setFilteredJobs(filtered);
   }, [allJobs, query, userRole]);
-
-  const addNewJob = (newJob: Omit<Job, "id" | "createdAt">) => {
-    const jobWithId: Job = {
-      ...newJob,
-      id: Date.now().toString(),
-      createdAt: new Date().toISOString(),
-    };
-    const updatedJobs = [...allJobs, jobWithId];
-    setAllJobs(updatedJobs);
-    localStorage.setItem("jobs", JSON.stringify(updatedJobs));
-    toast.success("Job vacancy successfully created!");
-  };
-
-  // const updateJobStatus = (jobId: string, newStatus: Job["status"]) => {
-  //   const updatedJobs = allJobs.map((job) =>
-  //     job.id === jobId ? { ...job, status: newStatus } : job
-  //   );
-  //   setAllJobs(updatedJobs);
-  //   localStorage.setItem("jobs", JSON.stringify(updatedJobs));
-  // };
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -97,8 +70,6 @@ const JobPages: React.FC = () => {
           <JobList
             query={query}
             onQueryChange={setQuery}
-            // onStatusChange={updateJobStatus}
-            onCreateJob={addNewJob}
           />
         </div>
       </div>
