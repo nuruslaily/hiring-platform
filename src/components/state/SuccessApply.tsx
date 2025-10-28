@@ -15,7 +15,7 @@ const SuccessApplyState = () => {
           </h2>
           <p className="text-sm mb-6 text-[#404040]">
             Congratulations! You've taken the first step towards a rewarding
-            career at Rakamin. We look forward to learning more about you during
+            career at Raka min. We look forward to learning more about you during
             the application process.
           </p>
         </div>

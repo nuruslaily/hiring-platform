@@ -160,7 +160,7 @@ const ApplyPage: React.FC = () => {
               onClick={() => navigate(-1)}
             />
             <h3 className="text-xl font-semibold text-[#1D1F20] p-2">
-              Apply {job?.jobName || `Job ID: ${id}`} at Rakamin
+              Apply {job?.jobName || `Job ID: ${id}`} at Raka min
             </h3>
           </div>
           <p>ℹ️ Required fields must be filled</p>

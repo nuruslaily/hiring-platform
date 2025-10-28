@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, Mail } from "lucide-react";
-import logo from "../assets/logo-rakamin.svg";
+import logo from "../assets/logo.svg";
 import usersData from "../data/json/mockUser.json";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -65,7 +65,7 @@ const LoginPage: React.FC = () => {
         <div className="mb-4 text-center sm:text-left">
           <img
             src={logo}
-            alt="Rakamin"
+            alt="Raka min"
             className="mx-auto sm:mx-0 w-28 sm:w-36 md:w-40"
           />
         </div>
@@ -73,7 +73,7 @@ const LoginPage: React.FC = () => {
         <div className="bg-white shadow rounded-xl flex flex-col justify-center items-center p-6 sm:p-8 w-full">
           <div className="w-full">
             <h1 className="text-lg sm:text-xl font-semibold text-[#1D1F20]">
-              Masuk ke Rakamin
+              Masuk ke Raka min
             </h1>
             <p className="text-sm sm:text-base text-[#1D1F20] mt-2">
               Belum punya akun?{" "}

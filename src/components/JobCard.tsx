@@ -85,7 +85,7 @@ const JobCard: React.FC<JobCardProps> = ({
 
           {userType === "jobseeker" && (
             <div className="text-sm text-gray-600">
-              <p className="font-normal">Rakamin</p>
+              <p className="font-normal">Raka min</p>
             </div>
           )}
         </div>

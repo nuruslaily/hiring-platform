@@ -29,7 +29,7 @@ const JobDetailCard: React.FC<JobDetailCardProps> = ({
         <div className="flex items-start gap-4">
           <img
             src={logo}
-            alt="Rakamin"
+            alt="Raka min"
             className="w-12 h-12 border border-gray-200 rounded-lg object-cover"
           />
           <div>
@@ -39,7 +39,7 @@ const JobDetailCard: React.FC<JobDetailCardProps> = ({
             <h2 className="text-xl font-bold text-[#1D1F20] leading-tight">
               {job.jobName}
             </h2>
-            <p className="text-gray-600 text-sm mt-1">Rakamin</p>
+            <p className="text-gray-600 text-sm mt-1">Raka min</p>
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../assets/logo-rakamin.svg";
+import logo from "../assets/logo.svg";
 import usersData from "../data/json/mockUser.json";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -63,12 +63,12 @@ const LoginEmailPage: React.FC = () => {
     <div className="min-h-screen flex justify-center items-center bg-white font-['Nunito_Sans'] px-4">
       <div className="flex flex-col w-full max-w-md sm:max-w-lg md:max-w-xl">
         <div className="mb-6">
-          <img src={logo} alt="Rakamin" className="w-32 sm:w-40 md:w-48" />
+          <img src={logo} alt="Raka min" className="w-32 sm:w-40 md:w-48" />
         </div>
 
         <div className="bg-white border shadow rounded-xl p-6 sm:p-8">
           <h1 className="text-xl md:text-2xl font-semibold text-[#1D1F20] text-start">
-            Masuk ke Rakamin
+            Masuk ke Raka min
           </h1>
           <p className="text-start text-sm text-[#1D1F20] mt-2">
             Belum punya akun?{" "}
