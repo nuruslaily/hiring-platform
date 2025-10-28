@@ -9,9 +9,10 @@ Selain itu, sistem sudah dilengkapi dengan proteksi routing, autentikasi berbasi
 ## Tech Stack Used
 
 Frontend:
-- React + Vite : untuk performa cepat dan struktur modular.
-- Tailwind CSS : styling responsif dan modern tanpa ribet.
-- React Router DOM : navigasi antar halaman dengan proteksi route.
+- React + Vite + Typescript.
+- Tailwind CSS + Daisy UI: styling.
+- React Router DOM : navigasi.
+- HeroIcon + Lucide React : icon.
 - ProtectedRoute & AuthRedirect Components : memastikan user hanya bisa mengakses halaman sesuai role/login status.
 - React Toastify : untuk menampilkan notifikasi sukses/gagal di berbagai aksi (misalnya login, submit form, dsb).
 
