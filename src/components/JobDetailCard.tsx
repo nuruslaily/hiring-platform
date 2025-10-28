@@ -25,7 +25,6 @@ const JobDetailCard: React.FC<JobDetailCardProps> = ({
 
   return (
     <div className="bg-white border border-gray-200 rounded-2xl shadow-sm flex flex-col h-full max-h-[80vh] overflow-hidden font-['Nunito_Sans']">
-      {/* Header */}
       <div className="flex justify-between items-start p-6 border-b border-gray-100 sticky top-0 bg-white z-10">
         <div className="flex items-start gap-4">
           <img
@@ -54,7 +53,6 @@ const JobDetailCard: React.FC<JobDetailCardProps> = ({
         )}
       </div>
 
-      {/* Body */}
       <div className="overflow-y-auto px-6 py-4 text-gray-700 leading-relaxed text-[15px] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
         {job.jobDescription ? (
           <div className="whitespace-pre-line">{job.jobDescription}</div>

@@ -1,5 +1,5 @@
 import React from "react";
-import emptyIllustration from "../assets/illustrations/empty-candidate.webp";
+import emptyIllustration from "../../assets/illustrations/empty-candidate.webp";
 
 const EmptyCandidateState: React.FC = () => {
   return (

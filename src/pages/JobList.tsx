@@ -5,6 +5,8 @@ import { SearchIcon, ArrowLeft } from "lucide-react";
 import EmptyJobState from "../components/state/EmptyJobState";
 import type { Job } from "../types/job";
 import { useNavigate } from "react-router-dom";
+import CreateJobCard from "../components/CreateJobCard";
+import { toast } from "react-toastify";
 
 interface JobListProps {
   query: string;
@@ -67,8 +69,6 @@ const JobList: React.FC<JobListProps> = ({
       ? filteredJobs.filter((job) => job.status === "active")
       : filteredJobs;
 
-  // const hasActiveJobs = jobs.some((job) => job.status === "active");
-
   const handleSelectJob = (job: Job) => {
     setSelectedJob(job);
     if (isMobile) {
@@ -88,11 +88,9 @@ const JobList: React.FC<JobListProps> = ({
     }
   };
 
-  // Mobile view untuk jobseeker - TAMPILAN DETAIL
   if (isMobile && role === "jobseeker" && showJobDetail && selectedJob) {
     return (
       <div className="font-sans min-h-screen bg-gray-50">
-        {/* Header untuk kembali ke list */}
         <div className="bg-white shadow-sm px-4 py-3 border-b border-gray-200 sticky top-0 z-10">
           <div className="flex items-center gap-3">
             <button
@@ -110,7 +108,6 @@ const JobList: React.FC<JobListProps> = ({
           </div>
         </div>
 
-        {/* Job Detail Content */}
         <div className="p-4">
           <JobDetailCard
             job={selectedJob}
@@ -122,11 +119,9 @@ const JobList: React.FC<JobListProps> = ({
     );
   }
 
-  // Mobile view untuk jobseeker - TAMPILAN LIST
   if (isMobile && role === "jobseeker") {
     return (
       <div className="font-sans min-h-screen bg-gray-50">
-        {/* Search form untuk mobile */}
         <div className="bg-white px-4 py-3 border-b border-gray-200">
           <form onSubmit={handleSearch} className="relative w-full">
             <input
@@ -171,22 +166,32 @@ const JobList: React.FC<JobListProps> = ({
     );
   }
 
+  const addNewJob = (newJob: Omit<Job, "id" | "createdAt">) => {
+    const jobWithId: Job = {
+      ...newJob,
+      id: Date.now().toString(),
+      createdAt: new Date().toISOString(),
+    };
+    const updatedJobs = [...jobs, jobWithId];
+    setJobs(updatedJobs);
+    localStorage.setItem("jobs", JSON.stringify(updatedJobs));
+    toast.success("Job vacancy successfully created");
+  };
+
   return (
     <div className="font-sans min-h-screen bg-gray-50">
-      {/* 🔍 Search form */}
       {role === "admin" && (
-        <div className="bg-white px-4 py-3 border-b border-gray-200 md:bg-transparent md:border-none">
+        <div className="bg-white px-4 py-3 border-b border-gray-200 md:bg-transparent md:border-none flex justify-between">
           <form
             onSubmit={handleSearch}
-            className="relative w-full md:max-w-3xl md:mx-auto flex justify-start"
+            className="relative w-full md:max-w-6xl flex justify-start items-center md:ml-5 gap-4 pt-2"
           >
             <input
               type="text"
               value={query}
               onChange={(e) => onQueryChange(e.target.value)}
               placeholder="Search by job details"
-              className="w-full pl-4 pr-10 py-3 border border-[#EFEEEE] rounded-lg shadow-sm 
-                 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition text-[#757575]"
+              className="w-full pl-4 pr-10 py-3 border border-[#EFEEEE] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 transition text-[#757575]"
             />
             <button
               type="submit"
@@ -195,14 +200,17 @@ const JobList: React.FC<JobListProps> = ({
               <SearchIcon className="h-5 w-5 text-[#01959F]" />
             </button>
           </form>
+          {!isMobile && (
+            <div className="flex justify-end items-end mt-10">
+              <CreateJobCard onCreateJob={addNewJob} />
+            </div>
+          )}
         </div>
       )}
 
-      {/* 💼 Unified layout */}
-      <div className="mx-4 md:mx-8 mt-4 md:mt-8 flex flex-col items-start justify-start">
+      <div className="mx-4 md:mx-8 mt-4 md:mt-0 flex flex-col items-start justify-start">
         {role === "jobseeker" && visibleJobs.length > 0 ? (
           <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6 justify-start items-start w-full">
-            {/* LEFT: Job List */}
             <div className="flex flex-col overflow-y-auto max-h-[70vh] md:max-h-[80vh] gap-4 pr-1">
               {visibleJobs.map((job) => (
                 <div
@@ -219,7 +227,6 @@ const JobList: React.FC<JobListProps> = ({
               ))}
             </div>
 
-            {/* RIGHT: Job Detail */}
             <div className="bg-transparent h-full">
               <JobDetailCard
                 job={selectedJob}
@@ -238,10 +245,7 @@ const JobList: React.FC<JobListProps> = ({
                 if (statusJobs.length === 0) return null;
 
                 return (
-                  <div key={status} className="mb-6 md:mb-8">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4 capitalize">
-                      {status}
-                    </h3>
+                  <div key={status} className="md:mb-8">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
                       {statusJobs.map((job) => (
                         <JobCard

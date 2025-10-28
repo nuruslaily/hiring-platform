@@ -18,11 +18,9 @@ const CreateJobCard: React.FC<CreateJobCardProps> = ({ onCreateJob }) => {
       ...jobData,
     };
 
-    // Ambil existing jobs
     const existingJobs = JSON.parse(localStorage.getItem("jobs") || "[]");
     const updatedJobs = [...existingJobs, newJob];
 
-    // Simpan ke localStorage biar jobseeker bisa lihat juga
     localStorage.setItem("jobs", JSON.stringify(updatedJobs));
 
     onCreateJob(newJob);

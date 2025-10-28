@@ -17,7 +17,6 @@ const Header: React.FC = () => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Ambil data user dari localStorage
   const userEmail = localStorage.getItem("userEmail") || "user@example.com";
   const userType =
     (localStorage.getItem("userRole") as "admin" | "jobseeker") || "jobseeker";
@@ -31,7 +30,6 @@ const Header: React.FC = () => {
     location.pathname === "/jobs" || location.pathname === "/admin";
   const isApplyPage = location.pathname.includes("/apply");
 
-  // Handle logout
   const handleLogout = () => {
     setShowDropdown(false);
     setIsLoggingOut(true);
@@ -73,9 +71,7 @@ const Header: React.FC = () => {
 
   return (
     <header className="bg-white shadow-sm px-4 md:px-6 py-4 flex justify-between items-center font-['Nunito_Sans']">
-      {/* Left Section */}
       <div className="flex items-center space-x-2">
-        {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition"
@@ -107,15 +103,12 @@ const Header: React.FC = () => {
         )}
       </div>
 
-      {/* Right Section */}
       <div className="flex items-center space-x-4">
-        {/* User Info (desktop) */}
         <div className="text-right hidden sm:block">
           <p className="text-sm font-medium text-gray-800">{userName}</p>
           <p className="text-xs text-gray-500">{userInfo.title}</p>
         </div>
 
-        {/* Avatar + Dropdown */}
         <div className="relative">
           <button
             onClick={() => setShowDropdown(!showDropdown)}
@@ -150,7 +143,6 @@ const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="absolute top-16 left-0 right-0 bg-white shadow-lg border-t border-gray-200 z-40 md:hidden">
           <div className="px-4 py-3 border-b border-gray-100">
@@ -173,7 +165,6 @@ const Header: React.FC = () => {
         </div>
       )}
 
-      {/* Overlay */}
       {(showDropdown || isMobileMenuOpen) && (
         <div
           className="fixed inset-0 z-30"
@@ -184,7 +175,6 @@ const Header: React.FC = () => {
         />
       )}
 
-      {/* Logout Loading */}
       {isLoggingOut && (
         <div className="fixed inset-0 bg-white/90 flex flex-col items-center justify-center z-9999 transition-all duration-300">
           <Loader2 className="w-8 h-8 text-[#01959F] animate-spin" />

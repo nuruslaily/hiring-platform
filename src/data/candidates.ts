@@ -2,7 +2,7 @@ export const mockCandidates = {
   candidates: [
     {
       id: "1",
-      jobId: "1", // Sesuaikan dengan job id yang ada
+      jobId: "1",
       name: "John Doe",
       email: "john.doe@example.com",
       phone: "+62 812-3456-7890",

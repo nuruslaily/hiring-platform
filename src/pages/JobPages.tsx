@@ -39,7 +39,6 @@ const JobPages: React.FC = () => {
     }
   }, []);
 
-  // Inisialisasi data kandidat
   useEffect(() => {
     const savedCandidates = localStorage.getItem("candidates");
     if (!savedCandidates) {
@@ -81,7 +80,6 @@ const JobPages: React.FC = () => {
     toast.success("Job vacancy successfully created!");
   };
 
-  // Update status job
   const updateJobStatus = (jobId: string, newStatus: Job["status"]) => {
     const updatedJobs = allJobs.map((job) =>
       job.id === jobId ? { ...job, status: newStatus } : job

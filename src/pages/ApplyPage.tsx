@@ -17,6 +17,7 @@ import TakePictureModal from "../components/TakePictureModal";
 import { countryCodes } from "../data/countryCodes";
 import SuccessApplyState from "../components/state/SuccessApply";
 import { CheckCircle } from "lucide-react";
+import { toast } from "react-toastify";
 
 const schema = yup.object({
   fullname: yup.string().required("Full name is required"),
@@ -57,23 +58,22 @@ const ApplyPage: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [query, setQuery] = useState("");
-  const [filteredCities, setFilteredCities] = useState<string[]>([]); // ✅ AWALNYA KOSONG
+  const [filteredCities, setFilteredCities] = useState<string[]>([]);
   const [selectedCountry, setSelectedCountry] = useState(countryCodes[0]);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [showDomicileDropdown, setShowDomicileDropdown] = useState(false); // ✅ STATE BARU
+  const [showDomicileDropdown, setShowDomicileDropdown] = useState(false);
 
   const domicileRef = useRef<HTMLDivElement>(null);
 
-  // Tutup dropdown jika klik di luar
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         domicileRef.current &&
         !domicileRef.current.contains(event.target as Node)
       ) {
-        setShowDomicileDropdown(false); // ✅ tutup dropdown domicile
-        setShowCountryDropdown(false); // tutup dropdown country
+        setShowDomicileDropdown(false);
+        setShowCountryDropdown(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -92,24 +92,22 @@ const ApplyPage: React.FC = () => {
   const handleSearch = (q: string) => {
     setQuery(q);
     if (q.trim() === "") {
-      setFilteredCities([]); // ✅ kosongkan jika query kosong
+      setFilteredCities([]);
       setShowDomicileDropdown(false);
     } else {
       const filtered = indonesiaCities.filter((city) =>
         city.toLowerCase().includes(q.toLowerCase())
       );
       setFilteredCities(filtered);
-      setShowDomicileDropdown(true); // ✅ tampilkan dropdown saat mengetik
+      setShowDomicileDropdown(true);
     }
   };
 
   const handleDomicileInputClick = () => {
     if (query.trim() === "") {
-      // ✅ Jika input kosong, tampilkan semua kota saat diklik
       setFilteredCities(indonesiaCities);
       setShowDomicileDropdown(true);
     } else {
-      // ✅ Jika sudah ada query, tetap tampilkan hasil pencarian
       setShowDomicileDropdown(true);
     }
   };
@@ -117,8 +115,8 @@ const ApplyPage: React.FC = () => {
   const handleSelectCity = (city: string) => {
     setValue("domicile", city);
     setQuery(city);
-    setFilteredCities([]); // ✅ kosongkan filtered cities
-    setShowDomicileDropdown(false); // ✅ tutup dropdown setelah pilih
+    setFilteredCities([]);
+    setShowDomicileDropdown(false);
   };
 
   const onSubmit = (data: any) => {
@@ -146,7 +144,6 @@ const ApplyPage: React.FC = () => {
     localStorage.setItem("candidates", JSON.stringify(existingCandidates));
 
     setSuccess(true);
-
     setTimeout(() => navigate("/jobs"), 3000);
   };
 
@@ -157,7 +154,6 @@ const ApplyPage: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4 font-['Nunito_Sans'] overflow-y-auto">
       <div className="bg-white w-full max-w-4xl m-10 rounded-xl shadow-xl flex flex-col relative">
-        {/* Header */}
         <div className="flex justify-between items-center p-6 text-[#1D1F20]">
           <div className="flex flex-row p-2">
             <ArrowLeftIcon
@@ -171,9 +167,7 @@ const ApplyPage: React.FC = () => {
           <p>ℹ️ Required fields must be filled</p>
         </div>
 
-        {/* Content */}
         <div className="px-8 pb-8">
-          {/* Photo Profile */}
           <div className="flex flex-col items-start mt-4">
             <span className="text-red-500 text-sm font-bold">*Required</span>
             <p className="text-sm text-[#404040] font-semibold mb-2">
@@ -205,9 +199,7 @@ const ApplyPage: React.FC = () => {
             />
           </div>
 
-          {/* Form */}
           <form className="mt-6 space-y-4" onSubmit={handleSubmit(onSubmit)}>
-            {/* Full Name */}
             <div>
               <label className="block text-sm font-medium text-[#404040] mb-1">
                 Full name<span className="text-red-500">*</span>
@@ -226,7 +218,6 @@ const ApplyPage: React.FC = () => {
               )}
             </div>
 
-            {/* Date of Birth */}
             <div className="relative">
               <label className="block text-sm font-medium text-[#404040] mb-1">
                 Date of birth<span className="text-red-500">*</span>
@@ -271,7 +262,6 @@ const ApplyPage: React.FC = () => {
               )}
             </div>
 
-            {/* Gender */}
             <div>
               <label className="block text-sm font-medium text-[#404040] mb-1">
                 Pronoun (gender)<span className="text-red-500">*</span>
@@ -304,7 +294,6 @@ const ApplyPage: React.FC = () => {
               )}
             </div>
 
-            {/* Domicile - FIXED */}
             <div className="relative" ref={domicileRef}>
               <label className="block text-sm font-medium text-[#404040] mb-1">
                 Domicile<span className="text-red-500">*</span>
@@ -314,7 +303,7 @@ const ApplyPage: React.FC = () => {
                   type="text"
                   value={query}
                   onChange={(e) => handleSearch(e.target.value)}
-                  onClick={handleDomicileInputClick} // ✅ TAMPILKAN DROPDOWN SAAT DIKLIK
+                  onClick={handleDomicileInputClick}
                   placeholder="Choose your domicile"
                   className="w-full border-2 border-[#E0E0E0] bg-white rounded-md pl-3 pr-10 py-2 
       focus:ring-2 focus:ring-[#01959F] text-[#404040] focus:outline-none cursor-pointer"
@@ -322,7 +311,6 @@ const ApplyPage: React.FC = () => {
                 <ChevronDownIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#01959F] pointer-events-none" />
               </div>
 
-              {/* ✅ DROPDOWN HANYA TAMPIL JIKA showDomicileDropdown = true */}
               {showDomicileDropdown && filteredCities.length > 0 && (
                 <ul className="absolute z-10 bg-white border-2 border-[#E0E0E0] rounded-lg mt-1 w-full max-h-60 overflow-y-auto shadow-lg">
                   {filteredCities.map((city) => (
@@ -339,7 +327,6 @@ const ApplyPage: React.FC = () => {
                 </ul>
               )}
 
-              {/* ✅ TAMPILAN JIKA TIDAK ADA HASIL PENCARIAN */}
               {showDomicileDropdown &&
                 filteredCities.length === 0 &&
                 query.trim() !== "" && (
@@ -357,7 +344,6 @@ const ApplyPage: React.FC = () => {
               )}
             </div>
 
-            {/* Phone */}
             <div className="relative">
               <label className="block text-sm font-medium text-[#404040] mb-1">
                 Phone Number<span className="text-red-500">*</span>
@@ -421,7 +407,6 @@ const ApplyPage: React.FC = () => {
               )}
             </div>
 
-            {/* Email */}
             <div>
               <label className="block text-sm font-medium text-[#404040] mb-1">
                 Email<span className="text-red-500">*</span>
@@ -438,7 +423,6 @@ const ApplyPage: React.FC = () => {
               )}
             </div>
 
-            {/* LinkedIn */}
             <div>
               <label className="block text-sm font-medium text-[#404040] mb-1">
                 LinkedIn Link<span className="text-red-500">*</span>
@@ -465,7 +449,6 @@ const ApplyPage: React.FC = () => {
               )}
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               className="w-full bg-[#01959F] text-white font-semibold py-2.5 rounded-md hover:bg-[#f6c94e] transition"

@@ -62,7 +62,6 @@ const JobCard: React.FC<JobCardProps> = ({
         userType === "jobseeker" ? "h-full flex flex-col" : ""
       } font-['Nunito_Sans']`}
     >
-      {/* Status + Date → hanya admin */}
       {userType === "admin" && (
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-3">
           <span
@@ -79,7 +78,6 @@ const JobCard: React.FC<JobCardProps> = ({
       )}
 
       <div className="mb-4 flex flex-row gap-3 md:gap-4 items-start">
-        {/* Kiri: Logo */}
         {userType === "jobseeker" && (
           <img
             src={logo}
@@ -88,7 +86,6 @@ const JobCard: React.FC<JobCardProps> = ({
           />
         )}
 
-        {/* Kanan: Info Pekerjaan */}
         <div className="flex flex-col flex-1 min-w-0">
           <h3 className="text-lg md:text-xl font-bold text-[#1D1F20] wrap-break-word">
             {job.jobName}
@@ -102,7 +99,6 @@ const JobCard: React.FC<JobCardProps> = ({
         </div>
       </div>
 
-      {/* Gaji di bawah blok */}
       {userType === "jobseeker" && (
         <>
           <p className="text-[#616161] font-normal text-sm md:text-base">

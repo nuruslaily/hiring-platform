@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, Mail } from "lucide-react";
 import logo from "../assets/logo-rakamin.svg";
-import usersData from "../data/mockUser.json";
+import usersData from "../data/json/mockUser.json";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -45,8 +46,7 @@ const LoginPage: React.FC = () => {
         localStorage.setItem("isAuthenticated", "true");
         localStorage.setItem("userName", user.name);
         localStorage.setItem("userRole", user.role);
-
-        alert(`Login sukses sebagai ${user.role}!`);
+        toast.success(`Login sukses sebagai ${user.role}!`);
         navigate("/jobs");
       }, 1000);
     } catch (err: any) {
@@ -62,7 +62,6 @@ const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen flex justify-center items-center bg-white font-['Nunito_Sans'] px-4 sm:px-6">
       <div className="flex flex-col w-full max-w-md sm:max-w-lg md:max-w-xl">
-        {/* Logo */}
         <div className="mb-4 text-center sm:text-left">
           <img
             src={logo}
@@ -71,7 +70,6 @@ const LoginPage: React.FC = () => {
           />
         </div>
 
-        {/* Card */}
         <div className="bg-white shadow rounded-xl flex flex-col justify-center items-center p-6 sm:p-8 w-full">
           <div className="w-full">
             <h1 className="text-lg sm:text-xl font-semibold text-[#1D1F20]">
@@ -88,7 +86,6 @@ const LoginPage: React.FC = () => {
             </p>
 
             <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
-              {/* Email */}
               <div>
                 <label
                   htmlFor="email"
@@ -114,7 +111,6 @@ const LoginPage: React.FC = () => {
                 )}
               </div>
 
-              {/* Password */}
               <div>
                 <label
                   htmlFor="password"
@@ -161,7 +157,6 @@ const LoginPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Tombol Login */}
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -174,14 +169,12 @@ const LoginPage: React.FC = () => {
                 {isSubmitting ? "Memproses..." : "Masuk"}
               </button>
 
-              {/* Divider */}
               <div className="flex items-center my-3">
                 <div className="flex-1 h-px bg-gray-300" />
                 <span className="px-2 text-gray-500 text-sm">atau</span>
                 <div className="flex-1 h-px bg-gray-300" />
               </div>
 
-              {/* Opsi Login Lain */}
               <button
                 type="button"
                 onClick={() => navigate("/loginemail")}

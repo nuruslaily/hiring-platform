@@ -32,12 +32,11 @@ const TakePictureModal: React.FC<TakePictureModalProps> = ({
           We'll take the photo once your hand pose is detected.
         </p>
 
-        {/* Webcam preview */}
         <div className="w-full aspect-square bg-white rounded-lg overflow-hidden flex items-center justify-center">
           <HandDetector
             onCapture={(photo) => {
-              onCapture(photo); // kirim ke ApplyPage
-              onClose(); // tutup modal setelah capture
+              onCapture(photo);
+              onClose();
             }}
           />
         </div>

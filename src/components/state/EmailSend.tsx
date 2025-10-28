@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import emailCheck from "../assets/illustrations/email-check.webp";
+import emailCheck from "../../assets/illustrations/email-check.webp";
 
 const EmailSend: React.FC = () => {
   const navigate = useNavigate();

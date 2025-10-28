@@ -17,7 +17,6 @@ import ApplyPage from "./pages/ApplyPage";
 import EmailSend from "./components/state/EmailSend";
 import LoginEmailPage from "./pages/LoginEmailPage";
 import TestingRedirect from "./components/TestingRedirect";
-// import LoginPasswordPage from "./pages/LoginPasswordPage";
 
 function App() {
   return (
@@ -32,7 +31,6 @@ function App() {
         theme="light"
       />
       <Routes>
-        {/* --- Auth Pages --- */}
         <Route
           path="/loginemail"
           element={
@@ -57,8 +55,6 @@ function App() {
             </AuthRedirect>
           }
         />
-
-        {/* --- Protected Pages (pakai ProtectedRoute) --- */}
         <Route
           path="/jobs"
           element={
@@ -94,10 +90,8 @@ function App() {
           }
         />
 
-        {/* --- Default Redirects --- */}
         <Route path="/" element={<Navigate to="/jobs" replace />} />
 
-        {/* --- Catch-all Route --- */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

@@ -20,11 +20,10 @@ export default function HandDetector({
 
   const [countdown, setCountdown] = useState<number | null>(null);
   const [isCounting, setIsCounting] = useState(false);
-  // const [poseLocked, setPoseLocked] = useState(false);
   const poseLocked = useRef(false);
 
   const startCountdown = (video: HTMLVideoElement) => {
-    if (isCounting) return; // cegah double countdown
+    if (isCounting) return;
 
     setIsCounting(true);
     poseLocked.current = true;
@@ -40,7 +39,6 @@ export default function HandDetector({
         setCountdown(null);
         setIsCounting(false);
 
-        // lakukan capture image
         captureImage(video);
         setStatus("📸 Pose 3 captured!");
         poseLocked.current = false;
@@ -48,11 +46,9 @@ export default function HandDetector({
     }, 1000);
   };
 
-  // deteksi jari
   const isFingerUp = (landmarks: any, tipIdx: number, pipIdx: number) =>
     landmarks[tipIdx].y < landmarks[pipIdx].y;
 
-  // identifikasi pose (1, 2, 3 jari)
   const getHandPose = (landmarks: any) => {
     if (!landmarks || landmarks.length < 21) return "none";
 
@@ -61,13 +57,12 @@ export default function HandDetector({
     const ringUp = isFingerUp(landmarks, 16, 14);
     const pinkyUp = isFingerUp(landmarks, 20, 18);
 
-    if (indexUp && !middleUp && !ringUp && !pinkyUp) return "pose1"; // 1 jari
-    if (indexUp && middleUp && !ringUp && !pinkyUp) return "pose2"; // 2 jari
-    if (indexUp && middleUp && ringUp && !pinkyUp) return "pose3"; // 3 jari
+    if (indexUp && !middleUp && !ringUp && !pinkyUp) return "pose1";
+    if (indexUp && middleUp && !ringUp && !pinkyUp) return "pose2";
+    if (indexUp && middleUp && ringUp && !pinkyUp) return "pose3";
     return "none";
   };
 
-  // gambar bounding box + label
   const drawBoundingBox = (
     ctx: CanvasRenderingContext2D,
     landmarks: any,
@@ -156,7 +151,6 @@ export default function HandDetector({
 
     camera.start();
 
-    // simpan instance ke ref agar bisa diakses ulang
     cameraRef.current = camera;
     handsRef.current = hands;
 
@@ -185,7 +179,6 @@ export default function HandDetector({
       cameraRef.current = null;
     }
 
-    // Buat ulang instance hands baru
     if (handsRef.current) {
       handsRef.current.close();
       handsRef.current = null;
@@ -194,7 +187,6 @@ export default function HandDetector({
     const video = videoRef.current;
     if (!video) return;
 
-    // Buat ulang instance Hands dan Camera
     const newHands = new Hands({
       locateFile: (file) =>
         `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4/${file}`,
@@ -252,8 +244,6 @@ export default function HandDetector({
 
   const poses = [opencamera1, opencamera2, opencamera3];
 
-  console.log("CEK: ", downloadUrl);
-
   return (
     <div className="text-center bg-white p-4">
       <div className="relative inline-block bg-white">
@@ -302,7 +292,6 @@ export default function HandDetector({
               pose is detected.
             </p>
 
-            {/* Pose instructions */}
             <div className="flex justify-center items-center gap-4">
               {poses.map((pose, index) => (
                 <React.Fragment key={index}>
@@ -314,7 +303,6 @@ export default function HandDetector({
                     />
                   </div>
 
-                  {/* Tampilkan panah di antara gambar */}
                   {index < poses.length - 1 && (
                     <ChevronRightIcon className="w-6 h-6 text-[#404040]" />
                   )}

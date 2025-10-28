@@ -12,7 +12,6 @@ const ManageJobPage: React.FC = () => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Load job dan candidates dari localStorage
   useEffect(() => {
     setLoading(true);
     const savedJobs = localStorage.getItem("jobs");
@@ -56,11 +55,9 @@ const ManageJobPage: React.FC = () => {
   const handleStatusChange = (newStatus: "active" | "inactive" | "draft") => {
     if (!job) return;
 
-    // Update state job
     const updatedJob = { ...job, status: newStatus };
     setJob(updatedJob);
 
-    // Update ke localStorage
     const savedJobs = localStorage.getItem("jobs");
     if (savedJobs) {
       const jobs: Job[] = JSON.parse(savedJobs);
@@ -76,7 +73,6 @@ const ManageJobPage: React.FC = () => {
       <Header />
 
       <div className="w-full mx-auto p-4 sm:p-6">
-        {/* Header Section */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
           <div className="flex items-center gap-3">
             <div className="bg-[#01959F] rounded-lg w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center">
@@ -95,7 +91,6 @@ const ManageJobPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Status Badge - Mobile */}
           <div className="sm:hidden">
             <select
               value={job.status}
@@ -119,7 +114,6 @@ const ManageJobPage: React.FC = () => {
             </select>
           </div>
 
-          {/* Desktop Actions */}
           <div className="hidden sm:flex items-center gap-3">
             <select
               value={job.status}
@@ -144,7 +138,6 @@ const ManageJobPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Stats Cards - Mobile */}
         <div className="grid grid-cols-2 gap-3 mb-6 sm:hidden">
           <div className="bg-white rounded-lg p-3 border border-gray-200">
             <p className="text-2xl font-bold text-gray-900">
@@ -160,7 +153,6 @@ const ManageJobPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Candidates Section */}
         <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
           {candidates.length > 0 ? (
             <div className="overflow-x-auto">
@@ -170,8 +162,6 @@ const ManageJobPage: React.FC = () => {
             <EmptyCandidateState />
           )}
         </div>
-
-        {/* Mobile Floating Action Button */}
         {candidates.length > 0 && (
           <div className="fixed bottom-6 right-6 sm:hidden">
             <button className="bg-[#01959F] hover:bg-[#017E86] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-all duration-200">
@@ -193,7 +183,6 @@ const ManageJobPage: React.FC = () => {
         )}
       </div>
 
-      {/* Loading Overlay */}
       {loading && (
         <div className="fixed inset-0 bg-white bg-opacity-80 flex items-center justify-center z-50">
           <div className="flex flex-col items-center gap-3">

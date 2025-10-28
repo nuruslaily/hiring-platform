@@ -101,7 +101,6 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white w-full max-w-4xl rounded-xl shadow-xl flex flex-col relative max-h-[95vh] md:max-h-[90vh]">
-        {/* Header */}
         <div className="flex justify-between items-center p-4 md:p-5 border-b border-[#EFEEEE] sticky top-0 bg-white rounded-t-xl z-10">
           <h2 className="text-lg md:text-xl font-semibold text-gray-800">
             Job Opening
@@ -114,10 +113,8 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
           </button>
         </div>
 
-        {/* Scrollable Content */}
         <div className="overflow-y-auto px-4 md:px-6 py-4 flex-1">
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Job Name */}
             <div>
               <label className="block text-start text-sm font-normal text-[#404040] mb-2">
                 Job Name<span className="text-red-500">*</span>
@@ -132,7 +129,6 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
               />
             </div>
 
-            {/* Job Type */}
             <div className="relative">
               <label className="block text-start text-sm font-normal text-[#404040] mb-2">
                 Job Type<span className="text-red-500">*</span>
@@ -171,7 +167,6 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
               </div>
             </div>
 
-            {/* Job Description */}
             <div>
               <label className="block text-start text-sm font-normal text-[#404040] mb-2">
                 Job Description<span className="text-red-500">*</span>
@@ -192,7 +187,6 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
               </div>
             </div>
 
-            {/* Number of Candidates */}
             <div>
               <label className="block text-start text-sm font-normal text-[#404040] mb-2">
                 Number of Candidates Needed
@@ -209,7 +203,6 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
               />
             </div>
 
-            {/* Salary */}
             <div>
               <label className="block text-start text-sm font-normal text-[#404040] mb-2">
                 Job Salary
@@ -252,7 +245,6 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
               </div>
             </div>
 
-            {/* Minimum Info Required */}
             <div className="border text-start border-[#EDEDED] rounded-xl p-4 mt-6">
               <h3 className="text-[#404040] text-start font-bold mb-4">
                 Minimum Profile Information Required
@@ -304,7 +296,6 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
           </form>
         </div>
 
-        {/* Footer */}
         <div className="border-t border-[#EFEEEE] p-4 text-right sticky bottom-0 bg-white rounded-b-xl">
           <button
             type="submit"

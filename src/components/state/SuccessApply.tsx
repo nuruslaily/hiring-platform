@@ -1,4 +1,4 @@
-import successApply from "../assets/illustrations/success-apply.webp";
+import successApply from "../../assets/illustrations/success-apply.webp";
 
 const SuccessApplyState = () => {
   return (

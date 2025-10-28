@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logo from "../assets/logo-rakamin.svg";
-import usersData from "../data/mockUser.json";
+import usersData from "../data/json/mockUser.json";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { KeyIcon } from "@heroicons/react/24/outline";
@@ -62,12 +62,10 @@ const LoginEmailPage: React.FC = () => {
   return (
     <div className="min-h-screen flex justify-center items-center bg-white font-['Nunito_Sans'] px-4">
       <div className="flex flex-col w-full max-w-md sm:max-w-lg md:max-w-xl">
-        {/* Logo */}
         <div className="mb-6">
           <img src={logo} alt="Rakamin" className="w-32 sm:w-40 md:w-48" />
         </div>
 
-        {/* Card */}
         <div className="bg-white border shadow rounded-xl p-6 sm:p-8">
           <h1 className="text-xl md:text-2xl font-semibold text-[#1D1F20] text-start">
             Masuk ke Rakamin
@@ -83,7 +81,6 @@ const LoginEmailPage: React.FC = () => {
           </p>
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-            {/* Email Input */}
             <div>
               <label
                 htmlFor="email"
@@ -109,7 +106,6 @@ const LoginEmailPage: React.FC = () => {
               )}
             </div>
 
-            {/* Button kirim link */}
             <button
               type="submit"
               disabled={isSubmitting}
@@ -122,14 +118,12 @@ const LoginEmailPage: React.FC = () => {
               {isSubmitting ? "Mengirim link..." : "Kirim link"}
             </button>
 
-            {/* Divider */}
             <div className="flex items-center my-3">
               <div className="flex-1 h-px bg-gray-300" />
               <span className="px-2 text-gray-500 text-sm">or</span>
               <div className="flex-1 h-px bg-gray-300" />
             </div>
 
-            {/* Opsi login lain */}
             <button
               type="button"
               onClick={() => navigate("/login")}

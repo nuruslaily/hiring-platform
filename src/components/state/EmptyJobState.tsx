@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import emptyIllustration from "../assets/illustrations/empty-job.webp";
+import emptyIllustration from "../../assets/illustrations/empty-job.webp";
 import CreateJobModal from "../CreateJobModal";
 
 interface EmptyJobProps {
@@ -10,7 +10,6 @@ const EmptyJobState: React.FC<EmptyJobProps> = ({ onCreateJob }) => {
   const [showModal, setShowModal] = useState(false);
   const [role, setRole] = useState<string | null>(null);
 
-  // 🧩 Ambil role dari localStorage
   useEffect(() => {
     const storedRole = localStorage.getItem("userRole");
     setRole(storedRole);
@@ -28,18 +27,15 @@ const EmptyJobState: React.FC<EmptyJobProps> = ({ onCreateJob }) => {
       ...jobData,
     };
 
-    // Ambil existing jobs
     const existingJobs = JSON.parse(localStorage.getItem("jobs") || "[]");
     const updatedJobs = [...existingJobs, newJob];
 
-    // Simpan ke localStorage biar jobseeker bisa lihat juga
     localStorage.setItem("jobs", JSON.stringify(updatedJobs));
 
     onCreateJob(newJob);
     setShowModal(false);
   };
 
-  // 🎨 Konten untuk admin
   const adminContent = (
     <>
       <img
@@ -62,7 +58,6 @@ const EmptyJobState: React.FC<EmptyJobProps> = ({ onCreateJob }) => {
     </>
   );
 
-  // 🎨 Konten untuk jobseeker
   const jobseekerContent = (
     <>
       <img
@@ -91,7 +86,6 @@ const EmptyJobState: React.FC<EmptyJobProps> = ({ onCreateJob }) => {
           <p className="text-gray-500 text-sm">⚠️ User not logged in.</p>
         )}
 
-        {/* Modal hanya muncul untuk admin */}
         {role === "admin" && showModal && (
           <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
             <div className="bg-white rounded-xl shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto">

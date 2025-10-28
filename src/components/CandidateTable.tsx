@@ -10,7 +10,6 @@ const CandidateTable: React.FC<CandidateTableProps> = ({ candidates }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  // Filter berdasarkan nama atau email
   const filteredCandidates = useMemo(() => {
     return candidates.filter(
       (c) =>
@@ -37,7 +36,6 @@ const CandidateTable: React.FC<CandidateTableProps> = ({ candidates }) => {
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm font-['Nunito_Sans']">
-      {/* Search bar */}
       <div className="p-4 flex justify-between items-center border-b border-gray-200">
         <h2 className="text-lg font-semibold text-gray-800">Candidate List</h2>
         <input
@@ -52,7 +50,6 @@ const CandidateTable: React.FC<CandidateTableProps> = ({ candidates }) => {
         />
       </div>
 
-      {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left text-gray-700">
           <thead className="bg-gray-100 text-gray-800 uppercase text-xs font-semibold">
@@ -120,7 +117,6 @@ const CandidateTable: React.FC<CandidateTableProps> = ({ candidates }) => {
         </table>
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-between items-center px-6 py-4 border-t bg-gray-50">
           <button
