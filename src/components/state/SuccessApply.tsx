@@ -2,7 +2,7 @@ import successApply from "../assets/illustrations/success-apply.webp";
 
 const SuccessApplyState = () => {
   return (
-    <div className="font-sans min-h-screen bg-gray-50 mt-3">
+    <div className="font-sans min-h-screen bg-gray-50 mt-30">
       <main className="flex-1 flex flex-col justify-center items-center text-center px-2">
         <div className="flex flex-col justify-center items-center text-center">
           <img

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
-import EmptyCandidateState from "../components/EmptyCandidateState";
+import EmptyCandidateState from "../components/state/EmptyCandidateState";
 import type { Job } from "../types/job";
 import type { Candidate } from "../types/candidates";
 import CandidateTable from "../components/CandidateTable";
@@ -53,6 +53,24 @@ const ManageJobPage: React.FC = () => {
     );
   }
 
+  const handleStatusChange = (newStatus: "active" | "inactive" | "draft") => {
+    if (!job) return;
+
+    // Update state job
+    const updatedJob = { ...job, status: newStatus };
+    setJob(updatedJob);
+
+    // Update ke localStorage
+    const savedJobs = localStorage.getItem("jobs");
+    if (savedJobs) {
+      const jobs: Job[] = JSON.parse(savedJobs);
+      const updatedJobs = jobs.map((j) =>
+        j.id === job.id ? { ...j, status: newStatus } : j
+      );
+      localStorage.setItem("jobs", JSON.stringify(updatedJobs));
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 w-full">
       <Header />
@@ -79,32 +97,50 @@ const ManageJobPage: React.FC = () => {
 
           {/* Status Badge - Mobile */}
           <div className="sm:hidden">
-            <span
-              className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                job.status === "active"
-                  ? "bg-green-100 text-green-800"
-                  : job.status === "inactive"
-                  ? "bg-red-100 text-red-800"
-                  : "bg-yellow-100 text-yellow-800"
-              }`}
+            <select
+              value={job.status}
+              onChange={(e) =>
+                handleStatusChange(
+                  e.target.value as "active" | "inactive" | "draft"
+                )
+              }
+              className={`px-3 py-1 rounded-full text-xs font-medium border cursor-pointer transition w-full
+      ${
+        job.status === "active"
+          ? "bg-green-100 text-green-800 border-green-300"
+          : job.status === "inactive"
+          ? "bg-red-100 text-red-800 border-red-300"
+          : "bg-yellow-100 text-yellow-800 border-yellow-300"
+      }`}
             >
-              {job.status.charAt(0).toUpperCase() + job.status.slice(1)}
-            </span>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="draft">Draft</option>
+            </select>
           </div>
 
           {/* Desktop Actions */}
           <div className="hidden sm:flex items-center gap-3">
-            <span
-              className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                job.status === "active"
-                  ? "bg-green-100 text-green-800"
-                  : job.status === "inactive"
-                  ? "bg-red-100 text-red-800"
-                  : "bg-yellow-100 text-yellow-800"
-              }`}
+            <select
+              value={job.status}
+              onChange={(e) =>
+                handleStatusChange(
+                  e.target.value as "active" | "inactive" | "draft"
+                )
+              }
+              className={`px-3 py-1 rounded-full text-sm font-medium border cursor-pointer transition
+      ${
+        job.status === "active"
+          ? "bg-green-100 text-green-800 border-green-300"
+          : job.status === "inactive"
+          ? "bg-red-100 text-red-800 border-red-300"
+          : "bg-yellow-100 text-yellow-800 border-yellow-300"
+      }`}
             >
-              {job.status.charAt(0).toUpperCase() + job.status.slice(1)}
-            </span>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="draft">Draft</option>
+            </select>
           </div>
         </div>
 

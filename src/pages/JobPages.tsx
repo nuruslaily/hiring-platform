@@ -1,43 +1,27 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import JobList from "./JobList";
-import CreateJobCard from "../components/CreateJobCard";
-import Notification from "../components/Notification";
 import { useNavigate } from "react-router-dom";
-import { mockCandidates } from "../data/mockCandidates";
+import { mockCandidates } from "../data/candidates";
 import type { Job } from "../types/job";
+import { toast } from "react-toastify";
 
 const JobPages: React.FC = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [allJobs, setAllJobs] = useState<Job[]>([]);
   const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
-  const [notification, setNotification] = useState({
-    show: false,
-    message: "",
-    type: "success" as "success" | "error",
-  });
 
   const [userName, setUserName] = useState("");
   const [userRole, setUserRole] = useState("");
-  const [isMobile, setIsMobile] = useState(false);
 
-  // Check device size
-  useEffect(() => {
-    const checkDevice = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkDevice();
-    window.addEventListener("resize", checkDevice);
-    return () => window.removeEventListener("resize", checkDevice);
-  }, []);
-
-  // Check login dan ambil data user
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     const savedUserName = localStorage.getItem("userName");
-    const savedUserRole = localStorage.getItem("userRole");
+    const savedUserRole =
+      (localStorage.getItem("userRole") as "admin" | "jobseeker") ||
+      "jobseeker";
+    setUserRole(savedUserRole);
 
     if (!isAuthenticated || !savedUserRole) {
       navigate("/login");
@@ -48,7 +32,6 @@ const JobPages: React.FC = () => {
     setUserRole(savedUserRole);
   }, [navigate]);
 
-  // Load semua jobs dari localStorage
   useEffect(() => {
     const savedJobs = localStorage.getItem("jobs");
     if (savedJobs) {
@@ -67,7 +50,6 @@ const JobPages: React.FC = () => {
     }
   }, []);
 
-  // Filter jobs berdasarkan query dan role
   useEffect(() => {
     let filtered = allJobs;
 
@@ -87,19 +69,6 @@ const JobPages: React.FC = () => {
     setFilteredJobs(filtered);
   }, [allJobs, query, userRole]);
 
-  // Notifikasi
-  const showNotification = (
-    message: string,
-    type: "success" | "error" = "success"
-  ) => {
-    setNotification({ show: true, message, type });
-    setTimeout(
-      () => setNotification((prev) => ({ ...prev, show: false })),
-      3000
-    );
-  };
-
-  // Tambah job baru
   const addNewJob = (newJob: Omit<Job, "id" | "createdAt">) => {
     const jobWithId: Job = {
       ...newJob,
@@ -109,7 +78,7 @@ const JobPages: React.FC = () => {
     const updatedJobs = [...allJobs, jobWithId];
     setAllJobs(updatedJobs);
     localStorage.setItem("jobs", JSON.stringify(updatedJobs));
-    showNotification("Job vacancy successfully created", "success");
+    toast.success("Job vacancy successfully created!");
   };
 
   // Update status job
@@ -133,19 +102,8 @@ const JobPages: React.FC = () => {
             onStatusChange={updateJobStatus}
             onCreateJob={addNewJob}
           />
-
-          {userRole === "admin" && !isMobile && (
-            <CreateJobCard onCreateJob={addNewJob} />
-          )}
         </div>
       </div>
-
-      <Notification
-        show={notification.show}
-        message={notification.message}
-        type={notification.type}
-        onClose={() => setNotification((prev) => ({ ...prev, show: false }))}
-      />
     </div>
   );
 };

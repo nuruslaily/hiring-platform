@@ -52,10 +52,6 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
     setInfoStates((prev) => ({ ...prev, [key]: value }));
   };
 
-  const addDescriptionItem = () => {
-    setDescriptionItems([...descriptionItems, ""]);
-  };
-
   const updateDescriptionItem = (index: number, value: string) => {
     const newItems = [...descriptionItems];
     newItems[index] = value;
@@ -66,19 +62,6 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
       .map((item) => `• ${item}`)
       .join("\n");
     setJobDescription(formattedDescription);
-  };
-
-  const removeDescriptionItem = (index: number) => {
-    if (descriptionItems.length > 1) {
-      const newItems = descriptionItems.filter((_, i) => i !== index);
-      setDescriptionItems(newItems);
-
-      const formattedDescription = newItems
-        .filter((item) => item.trim() !== "")
-        .map((item) => `• ${item}`)
-        .join("\n");
-      setJobDescription(formattedDescription);
-    }
   };
 
   const handleMinSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -193,37 +176,19 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
               <label className="block text-start text-sm font-normal text-[#404040] mb-2">
                 Job Description<span className="text-red-500">*</span>
               </label>
-              <div className="space-y-2 border-2 border-[#E0E0E0] rounded-lg p-3 md:p-4">
+              <div className="space-y-2 border-2 border-[#E0E0E0] rounded-lg md:p-4">
                 {descriptionItems.map((item, index) => (
-                  <div key={index} className="flex items-start gap-2">
-                    <span className="text-[#404040] mt-2 shrink-0">•</span>
-                    <input
-                      type="text"
+                  <div key={index} className="flex items-start gap-6">
+                    <textarea
                       value={item}
                       onChange={(e) =>
                         updateDescriptionItem(index, e.target.value)
                       }
-                      placeholder="Enter job responsibility..."
-                      className="flex-1 text-[#404040] border-none focus:outline-none focus:ring-0 px-2 py-1 min-w-0"
+                      placeholder="Ex."
+                      className="flex-1 text-[#404040] border-none focus:outline-none focus:ring-0 min-w-0 max-h-3xl"
                     />
-                    {descriptionItems.length > 1 && (
-                      <button
-                        type="button"
-                        onClick={() => removeDescriptionItem(index)}
-                        className="text-red-500 hover:text-red-700 mt-1 shrink-0"
-                      >
-                        ✕
-                      </button>
-                    )}
                   </div>
                 ))}
-                <button
-                  type="button"
-                  onClick={addDescriptionItem}
-                  className="text-[#01959F] hover:text-[#017E86] font-medium text-sm mt-2 flex items-center gap-1"
-                >
-                  + Add another responsibility
-                </button>
               </div>
             </div>
 

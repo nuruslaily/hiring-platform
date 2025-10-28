@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import JobCard from "../components/JobCard";
 import JobDetailCard from "../components/JobDetailCard";
 import { SearchIcon, ArrowLeft } from "lucide-react";
-import EmptyJobState from "../components/EmptyJobState";
+import EmptyJobState from "../components/state/EmptyJobState";
 import type { Job } from "../types/job";
 import { useNavigate } from "react-router-dom";
 

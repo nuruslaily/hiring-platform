@@ -72,7 +72,7 @@ const LoginPage: React.FC = () => {
         </div>
 
         {/* Card */}
-        <div className="bg-white border shadow rounded-xl flex flex-col justify-center items-center p-6 sm:p-8 w-full">
+        <div className="bg-white shadow rounded-xl flex flex-col justify-center items-center p-6 sm:p-8 w-full">
           <div className="w-full">
             <h1 className="text-lg sm:text-xl font-semibold text-[#1D1F20]">
               Masuk ke Rakamin

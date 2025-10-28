@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import emailCheck from "../assets/illustrations/email-check.webp";
 
-const NotificationPage: React.FC = () => {
+const EmailSend: React.FC = () => {
   const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
@@ -12,7 +12,6 @@ const NotificationPage: React.FC = () => {
       const parsed = JSON.parse(storedUser);
       setUserEmail(parsed?.email || null);
     } else {
-      // Kalau belum login lewat email, balikin ke halaman login email
       navigate("/loginemail");
     }
   }, [navigate]);
@@ -60,4 +59,4 @@ const NotificationPage: React.FC = () => {
   );
 };
 
-export default NotificationPage;
+export default EmailSend;

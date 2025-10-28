@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import emptyIllustration from "../assets/illustrations/empty-job.webp";
-import CreateJobModal from "./CreateJobModal";
+import CreateJobModal from "../CreateJobModal";
 
 interface EmptyJobProps {
   onCreateJob: (job: any) => void;

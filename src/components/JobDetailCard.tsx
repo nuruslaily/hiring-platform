@@ -47,7 +47,7 @@ const JobDetailCard: React.FC<JobDetailCardProps> = ({
         {userType === "jobseeker" && (
           <button
             onClick={() => onApply?.(job.id)}
-            className="bg-[#FBC037] text-[#404040] px-6 py-2 rounded-lg hover:bg-[#FA9810] transition font-semibold text-sm shadow-sm"
+            className="bg-[#FBC037] text-[#404040] px-6 py-2 rounded-lg hover:bg-[#FA9810] transition font-bold text-sm shadow-sm"
           >
             Apply
           </button>

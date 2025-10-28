@@ -4,6 +4,8 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -12,7 +14,7 @@ import ManageJobPage from "./pages/ManageJobPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthRedirect from "./components/AuthRedirect";
 import ApplyPage from "./pages/ApplyPage";
-import NotificationPage from "./pages/NotificationPage";
+import EmailSend from "./components/state/EmailSend";
 import LoginEmailPage from "./pages/LoginEmailPage";
 import TestingRedirect from "./components/TestingRedirect";
 // import LoginPasswordPage from "./pages/LoginPasswordPage";
@@ -20,6 +22,15 @@ import TestingRedirect from "./components/TestingRedirect";
 function App() {
   return (
     <Router>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="light"
+      />
       <Routes>
         {/* --- Auth Pages --- */}
         <Route
@@ -78,7 +89,7 @@ function App() {
           path="/notification"
           element={
             <TestingRedirect>
-              <NotificationPage />
+              <EmailSend />
             </TestingRedirect>
           }
         />

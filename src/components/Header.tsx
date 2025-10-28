@@ -91,7 +91,7 @@ const Header: React.FC = () => {
           <>
             <button
               onClick={handleBackToJobList}
-              className="text-[#404040] font-semibold hover:text-gray-900 text-sm border border-gray-300 rounded px-3 py-1 hover:bg-gray-100 transition hidden sm:block"
+              className="text-[#404040] shadow-sm font-semibold hover:text-gray-900 text-sm border border-gray-300 rounded px-3 py-1 hover:bg-gray-100 transition hidden sm:block"
             >
               {userType === "admin" ? "Job List" : "Available Jobs"}
             </button>
@@ -101,7 +101,7 @@ const Header: React.FC = () => {
             </span>
           </>
         ) : (
-          <h1 className="text-lg md:text-xl font-semibold text-gray-800">
+          <h1 className="text-lg md:text-xl font-bold text-gray-800">
             {getHeaderTitle()}
           </h1>
         )}

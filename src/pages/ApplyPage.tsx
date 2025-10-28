@@ -7,7 +7,7 @@ import {
   CalendarDateRangeIcon,
 } from "@heroicons/react/24/outline";
 import type { Job } from "../types/job";
-import { indonesiaCities } from "../data/mockRegion";
+import { indonesiaCities } from "../data/region";
 import { DayPicker } from "react-day-picker";
 import { normalizeLinkedInUrl } from "../utils/normalizeLinkedInUrl";
 import * as yup from "yup";
@@ -15,7 +15,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import TakePictureModal from "../components/TakePictureModal";
 import { countryCodes } from "../data/countryCodes";
-import SuccessApplyState from "../components/SuccessApply";
+import SuccessApplyState from "../components/state/SuccessApply";
 import { CheckCircle } from "lucide-react";
 
 const schema = yup.object({
