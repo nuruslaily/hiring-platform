@@ -17,7 +17,6 @@ import TakePictureModal from "../components/TakePictureModal";
 import { countryCodes } from "../data/countryCodes";
 import SuccessApplyState from "../components/state/SuccessApply";
 import { CheckCircle } from "lucide-react";
-import { toast } from "react-toastify";
 
 const schema = yup.object({
   fullname: yup.string().required("Full name is required"),

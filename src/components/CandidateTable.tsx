@@ -18,15 +18,6 @@ const CandidateTable: React.FC<CandidateTableProps> = ({ candidates }) => {
     );
   }, [candidates, searchTerm]);
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-  };
-
   const totalPages = Math.ceil(filteredCandidates.length / itemsPerPage);
 
   const currentCandidates = filteredCandidates.slice(

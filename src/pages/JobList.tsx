@@ -11,14 +11,14 @@ import { toast } from "react-toastify";
 interface JobListProps {
   query: string;
   onQueryChange: (query: string) => void;
-  onStatusChange: (jobId: string, newStatus: Job["status"]) => void;
+  // onStatusChange: (jobId: string, newStatus: Job["status"]) => void;
   onCreateJob: (job: Omit<Job, "id" | "createdAt">) => void;
 }
 
 const JobList: React.FC<JobListProps> = ({
   query,
   onQueryChange,
-  onStatusChange,
+  // onStatusChange,
   onCreateJob,
 }) => {
   const navigate = useNavigate();
@@ -251,7 +251,7 @@ const JobList: React.FC<JobListProps> = ({
                         <JobCard
                           key={job.id}
                           job={job}
-                          onStatusChange={onStatusChange}
+                          // onStatusChange={onStatusChange}
                           userType="admin"
                         />
                       ))}
