@@ -1,73 +1,43 @@
-# React + TypeScript + Vite
+## Project Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplikasi ini adalah Job Recruitment Platform sederhana berbasis React, yang memungkinkan dua jenis user Admin dan Jobseeker untuk mengelola dan melamar pekerjaan.
 
-Currently, two official plugins are available:
+- Admin dapat membuat, mengedit, dan menghapus lowongan pekerjaan.
+- Jobseeker dapat melihat daftar pekerjaan yang tersedia dan melamar sesuai minat mereka.
+Selain itu, sistem sudah dilengkapi dengan proteksi routing, autentikasi berbasis role, serta notifikasi menggunakan React Toastify untuk pengalaman pengguna yang lebih interaktif.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack Used
 
-## React Compiler
+Frontend:
+- React + Vite : untuk performa cepat dan struktur modular.
+- Tailwind CSS : styling responsif dan modern tanpa ribet.
+- React Router DOM : navigasi antar halaman dengan proteksi route.
+- ProtectedRoute & AuthRedirect Components : memastikan user hanya bisa mengakses halaman sesuai role/login status.
+- React Toastify : untuk menampilkan notifikasi sukses/gagal di berbagai aksi (misalnya login, submit form, dsb).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Data & Storage:
+- LocalStorage — menyimpan data user login dan simulasi data jobs/users.
+- JSON file (db.json) — sebagai mock database untuk data awal pengguna dan pekerjaan.
 
-## Expanding the ESLint configuration
+## How to Run Locally
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Clone repository
+```
+git clone https://github.com/nuruslaily/hiring-platform.git
+cd hiring-platform
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Install dependencies
+``
+npm install
+``
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Jalankan app
+``
+npm run dev
+``
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Buka di browser
+``
+http://localhost:5173
+``
