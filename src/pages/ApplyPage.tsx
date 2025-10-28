@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import avatar from "../assets/avatar.png";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
-import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowUpTrayIcon,
+  CalendarDateRangeIcon,
+} from "@heroicons/react/24/outline";
 import type { Job } from "../types/job";
 import { indonesiaCities } from "../data/mockRegion";
 import { DayPicker } from "react-day-picker";
@@ -54,12 +57,13 @@ const ApplyPage: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [query, setQuery] = useState("");
-  const [filteredCities, setFilteredCities] = useState(indonesiaCities);
+  const [filteredCities, setFilteredCities] = useState<string[]>([]); // ✅ AWALNYA KOSONG
   const [selectedCountry, setSelectedCountry] = useState(countryCodes[0]);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [showDomicileDropdown, setShowDomicileDropdown] = useState(false); // ✅ STATE BARU
 
-  const domicileRef = useRef<HTMLDivElement>(null); // referensi area input + dropdown
+  const domicileRef = useRef<HTMLDivElement>(null);
 
   // Tutup dropdown jika klik di luar
   useEffect(() => {
@@ -68,12 +72,14 @@ const ApplyPage: React.FC = () => {
         domicileRef.current &&
         !domicileRef.current.contains(event.target as Node)
       ) {
-        setFilteredCities([]); // tutup dropdown
+        setShowDomicileDropdown(false); // ✅ tutup dropdown domicile
+        setShowCountryDropdown(false); // tutup dropdown country
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
   const toggleCalendar = () => setShowCalendar(!showCalendar);
 
   const handleSelect = (date?: Date) => {
@@ -85,23 +91,47 @@ const ApplyPage: React.FC = () => {
 
   const handleSearch = (q: string) => {
     setQuery(q);
-    const filtered = indonesiaCities.filter((city) =>
-      city.toLowerCase().includes(q.toLowerCase())
-    );
-    setFilteredCities(filtered);
+    if (q.trim() === "") {
+      setFilteredCities([]); // ✅ kosongkan jika query kosong
+      setShowDomicileDropdown(false);
+    } else {
+      const filtered = indonesiaCities.filter((city) =>
+        city.toLowerCase().includes(q.toLowerCase())
+      );
+      setFilteredCities(filtered);
+      setShowDomicileDropdown(true); // ✅ tampilkan dropdown saat mengetik
+    }
+  };
+
+  const handleDomicileInputClick = () => {
+    if (query.trim() === "") {
+      // ✅ Jika input kosong, tampilkan semua kota saat diklik
+      setFilteredCities(indonesiaCities);
+      setShowDomicileDropdown(true);
+    } else {
+      // ✅ Jika sudah ada query, tetap tampilkan hasil pencarian
+      setShowDomicileDropdown(true);
+    }
+  };
+
+  const handleSelectCity = (city: string) => {
+    setValue("domicile", city);
+    setQuery(city);
+    setFilteredCities([]); // ✅ kosongkan filtered cities
+    setShowDomicileDropdown(false); // ✅ tutup dropdown setelah pilih
   };
 
   const onSubmit = (data: any) => {
     const fullPhone = `${selectedCountry.dialCode}${data.phone}`;
     const finalData = {
-      id: Date.now().toString(), // id unik sederhana
-      jobId: job.id, // ← job.id dari props atau useParams
-      name: data.name,
+      id: Date.now().toString(),
+      jobId: job.id,
+      name: data.fullname,
       email: data.email,
       phone: fullPhone,
       birthDate: data.dateOfBirth,
-      domicile: data.domicile, // ✅ tambahkan
-      gender: data.gender, // ✅ tambahkan
+      domicile: data.domicile,
+      gender: data.gender,
       linkedinLink: data.linkedinLink,
       profilePhoto: photo || "",
       appliedDate: new Date().toISOString(),
@@ -117,12 +147,11 @@ const ApplyPage: React.FC = () => {
 
     setSuccess(true);
 
-    // 🔁 otomatis kembali ke /jobs setelah 3 detik
     setTimeout(() => navigate("/jobs"), 3000);
   };
 
   if (success) {
-    return <SuccessApplyState />; // tampilkan komponen sukses
+    return <SuccessApplyState />;
   }
 
   return (
@@ -170,8 +199,8 @@ const ApplyPage: React.FC = () => {
               open={showModal}
               onClose={() => setShowModal(false)}
               onCapture={(capturedPhoto) => {
-                setPhoto(capturedPhoto); // ini wajib
-                setShowModal(false); // tutup modal
+                setPhoto(capturedPhoto);
+                setShowModal(false);
               }}
             />
           </div>
@@ -202,17 +231,25 @@ const ApplyPage: React.FC = () => {
               <label className="block text-sm font-medium text-[#404040] mb-1">
                 Date of birth<span className="text-red-500">*</span>
               </label>
-              <input
-                readOnly
-                onClick={toggleCalendar}
-                value={
-                  watch("dateOfBirth")
-                    ? new Date(watch("dateOfBirth")).toLocaleDateString("id-ID")
-                    : ""
-                }
-                placeholder="Select date of birth"
-                className="w-full cursor-pointer bg-white border-2 text-[#404040] border-[#E0E0E0] focus:ring-2 focus:ring-[#01959F] focus:outline-none rounded-md px-3 py-2"
-              />
+              <div className="relative">
+                <CalendarDateRangeIcon
+                  onClick={toggleCalendar}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#01959F] cursor-pointer"
+                />
+                <input
+                  readOnly
+                  onClick={toggleCalendar}
+                  value={
+                    watch("dateOfBirth")
+                      ? new Date(watch("dateOfBirth")).toLocaleDateString(
+                          "id-ID"
+                        )
+                      : ""
+                  }
+                  placeholder="Select date of birth"
+                  className="w-full pl-10 pr-3 bg-white border-2 text-[#404040] border-[#E0E0E0] focus:ring-2 focus:ring-[#01959F] focus:outline-none rounded-md py-2 cursor-pointer"
+                />
+              </div>
               {showCalendar && (
                 <div className="absolute z-20 bg-white text-[#404040] border border-[#E0E0E0] rounded-lg shadow-lg mt-2">
                   <DayPicker
@@ -222,11 +259,8 @@ const ApplyPage: React.FC = () => {
                     fromYear={1950}
                     toYear={2025}
                     captionLayout="dropdown"
+                    navLayout="around"
                     className="bg-white text-[#404040]"
-                    styles={{
-                      caption: { display: "flex", justifyContent: "center" }, // tengah
-                      caption_label: { fontWeight: "bold" },
-                    }}
                   />
                 </div>
               )}
@@ -270,32 +304,32 @@ const ApplyPage: React.FC = () => {
               )}
             </div>
 
-            {/* Domicile */}
+            {/* Domicile - FIXED */}
             <div className="relative" ref={domicileRef}>
               <label className="block text-sm font-medium text-[#404040] mb-1">
                 Domicile<span className="text-red-500">*</span>
               </label>
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => handleSearch(e.target.value)}
-                placeholder="Choose your domicile"
-                className="w-full border-2 border-[#E0E0E0] bg-white rounded-md px-3 py-2 pr-10 
-               focus:ring-2 focus:ring-[#01959F] text-[#404040] focus:outline-none"
-              />
-              <ChevronDownIcon className="w-5 h-5 text-[#01959F] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <div className="relative">
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  onClick={handleDomicileInputClick} // ✅ TAMPILKAN DROPDOWN SAAT DIKLIK
+                  placeholder="Choose your domicile"
+                  className="w-full border-2 border-[#E0E0E0] bg-white rounded-md pl-3 pr-10 py-2 
+      focus:ring-2 focus:ring-[#01959F] text-[#404040] focus:outline-none cursor-pointer"
+                />
+                <ChevronDownIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#01959F] pointer-events-none" />
+              </div>
 
-              {filteredCities.length > 0 && (
+              {/* ✅ DROPDOWN HANYA TAMPIL JIKA showDomicileDropdown = true */}
+              {showDomicileDropdown && filteredCities.length > 0 && (
                 <ul className="absolute z-10 bg-white border-2 border-[#E0E0E0] rounded-lg mt-1 w-full max-h-60 overflow-y-auto shadow-lg">
                   {filteredCities.map((city) => (
                     <li key={city}>
                       <button
                         type="button"
-                        onClick={() => {
-                          setValue("domicile", city);
-                          setQuery(city);
-                          setFilteredCities([]); // ✅ langsung tutup setelah pilih
-                        }}
+                        onClick={() => handleSelectCity(city)}
                         className="w-full text-left px-4 py-2 hover:bg-[#E6F9FA] text-[#404040]"
                       >
                         {city}
@@ -304,6 +338,17 @@ const ApplyPage: React.FC = () => {
                   ))}
                 </ul>
               )}
+
+              {/* ✅ TAMPILAN JIKA TIDAK ADA HASIL PENCARIAN */}
+              {showDomicileDropdown &&
+                filteredCities.length === 0 &&
+                query.trim() !== "" && (
+                  <ul className="absolute z-10 bg-white border-2 border-[#E0E0E0] rounded-lg mt-1 w-full max-h-60 overflow-y-auto shadow-lg">
+                    <li className="px-4 py-2 text-gray-500 text-sm">
+                      No cities found
+                    </li>
+                  </ul>
+                )}
 
               {errors.domicile && (
                 <p className="text-red-500 text-xs mt-1">

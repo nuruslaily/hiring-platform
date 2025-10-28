@@ -16,14 +16,10 @@ const jobTypes = [
 ];
 
 const formatRupiah = (value: string): string => {
-  // Hapus semua karakter non-digit
   const numericValue = value.replace(/\D/g, "");
-
-  // Format dengan titik setiap 3 digit dari belakang
   if (numericValue) {
     return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
-
   return "";
 };
 
@@ -60,13 +56,11 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
     setDescriptionItems([...descriptionItems, ""]);
   };
 
-  // Fungsi untuk mengupdate item deskripsi
   const updateDescriptionItem = (index: number, value: string) => {
     const newItems = [...descriptionItems];
     newItems[index] = value;
     setDescriptionItems(newItems);
 
-    // Update jobDescription dengan format list
     const formattedDescription = newItems
       .filter((item) => item.trim() !== "")
       .map((item) => `• ${item}`)
@@ -74,7 +68,6 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
     setJobDescription(formattedDescription);
   };
 
-  // Fungsi untuk menghapus item deskripsi
   const removeDescriptionItem = (index: number) => {
     if (descriptionItems.length > 1) {
       const newItems = descriptionItems.filter((_, i) => i !== index);
@@ -94,7 +87,6 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
     setMinSalary(formattedValue);
   };
 
-  // Handler untuk maximum salary dengan format currency
   const handleMaxSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const formattedValue = formatRupiah(value);
@@ -104,7 +96,6 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validasi form
     if (!jobName.trim() || !jobDescription.trim() || !numberOfCandidates) {
       return;
     }
@@ -125,21 +116,23 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-4xl m-10 rounded-xl shadow-xl flex flex-col relative max-h-[90vh]">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white w-full max-w-4xl rounded-xl shadow-xl flex flex-col relative max-h-[95vh] md:max-h-[90vh]">
         {/* Header */}
-        <div className="flex justify-between items-center p-5 border-b border-[#EFEEEE]">
-          <h2 className="text-xl font-semibold text-gray-800">Job Opening</h2>
+        <div className="flex justify-between items-center p-4 md:p-5 border-b border-[#EFEEEE] sticky top-0 bg-white rounded-t-xl z-10">
+          <h2 className="text-lg md:text-xl font-semibold text-gray-800">
+            Job Opening
+          </h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-[#404040] text-2xl leading-none"
+            className="text-gray-500 hover:text-[#404040] text-2xl leading-none p-1"
           >
             &times;
           </button>
         </div>
 
         {/* Scrollable Content */}
-        <div className="overflow-y-auto px-6 py-4">
+        <div className="overflow-y-auto px-4 md:px-6 py-4 flex-1">
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Job Name */}
             <div>
@@ -151,7 +144,7 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
                 value={jobName}
                 onChange={(e) => setJobName(e.target.value)}
                 placeholder="Ex. Front End Engineer"
-                className="w-full text-[#404040] border-[#E0E0E0] border-2 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#01959F] outline-none mb-2"
+                className="w-full text-[#404040] border-[#E0E0E0] border-2 rounded-lg px-4 py-3 md:py-2 focus:ring-2 focus:ring-[#01959F] outline-none"
                 required
               />
             </div>
@@ -166,7 +159,7 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
                 <div
                   tabIndex={0}
                   role="button"
-                  className="btn w-full justify-between bg-white border-2 border-[#E0E0E0] text-[#404040] hover:bg-gray-50"
+                  className="btn w-full justify-between bg-white border-2 border-[#E0E0E0] text-[#404040] hover:bg-gray-50 py-3 md:py-2"
                 >
                   {selected?.label || "Select job type"}
                   <ChevronDownIcon className="w-5 h-5" />
@@ -174,16 +167,16 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
 
                 <ul
                   tabIndex={0}
-                  className="dropdown-content z-[10] menu p-2 bg-white focus:bg-white hover:bg-white border border-gray-200 rounded-box w-full"
+                  className="dropdown-content z-10 menu p-2 bg-white border border-gray-200 rounded-box w-full max-h-60 overflow-y-auto"
                 >
                   {jobTypes.map((type) => (
                     <li key={type.value}>
                       <button
                         type="button"
                         onClick={() => setSelected(type)}
-                        className={`text-left font-semibold hover:bg-white focus:bg-white ${
+                        className={`text-left hover:bg-gray-50 ${
                           selected.value === type.value
-                            ? "text-[#01959F]"
+                            ? "text-[#01959F] bg-gray-50"
                             : "text-[#404040]"
                         }`}
                       >
@@ -200,7 +193,7 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
               <label className="block text-start text-sm font-normal text-[#404040] mb-2">
                 Job Description<span className="text-red-500">*</span>
               </label>
-              <div className="space-y-2 border-2 border-[#E0E0E0] rounded-lg p-4">
+              <div className="space-y-2 border-2 border-[#E0E0E0] rounded-lg p-3 md:p-4">
                 {descriptionItems.map((item, index) => (
                   <div key={index} className="flex items-start gap-2">
                     <span className="text-[#404040] mt-2 shrink-0">•</span>
@@ -211,7 +204,7 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
                         updateDescriptionItem(index, e.target.value)
                       }
                       placeholder="Enter job responsibility..."
-                      className="flex-1 text-[#404040] border-none focus:outline-none focus:ring-0 px-2 py-1"
+                      className="flex-1 text-[#404040] border-none focus:outline-none focus:ring-0 px-2 py-1 min-w-0"
                     />
                     {descriptionItems.length > 1 && (
                       <button
@@ -232,17 +225,6 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
                   + Add another responsibility
                 </button>
               </div>
-              {/* Preview (opsional)
-              {jobDescription && (
-                <div className="mt-2 p-3 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-gray-600 font-medium mb-1">
-                    Preview:
-                  </p>
-                  <pre className="text-sm text-gray-700 whitespace-pre-wrap">
-                    {jobDescription}
-                  </pre>
-                </div>
-              )} */}
             </div>
 
             {/* Number of Candidates */}
@@ -256,7 +238,7 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
                 value={numberOfCandidates}
                 onChange={(e) => setNumberOfCandidates(e.target.value)}
                 placeholder="Ex. 2"
-                className="w-full text-[#404040] border-2 border-[#E0E0E0] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#01959F] outline-none mb-2"
+                className="w-full text-[#404040] border-2 border-[#E0E0E0] rounded-lg px-4 py-3 md:py-2 focus:ring-2 focus:ring-[#01959F] outline-none"
                 required
                 min="1"
               />
@@ -267,7 +249,7 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
               <label className="block text-start text-sm font-normal text-[#404040] mb-2">
                 Job Salary
               </label>
-              <div className="flex flex-row gap-3 justify-between">
+              <div className="flex flex-col md:flex-row gap-3 justify-between">
                 <div className="flex flex-col w-full">
                   <label className="block text-start text-sm font-normal text-[#404040] mb-2">
                     Minimum Estimated Salary
@@ -281,7 +263,7 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
                       placeholder="7.000.000"
                       value={minSalary}
                       onChange={handleMinSalaryChange}
-                      className="w-full text-[#404040] border-2 border-[#E0E0E0] rounded-lg pl-10 pr-4 py-2 focus:ring-2 focus:ring-[#01959F] outline-none"
+                      className="w-full text-[#404040] border-2 border-[#E0E0E0] rounded-lg pl-10 pr-4 py-3 md:py-2 focus:ring-2 focus:ring-[#01959F] outline-none"
                     />
                   </div>
                 </div>
@@ -298,7 +280,7 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
                       placeholder="8.000.000"
                       value={maxSalary}
                       onChange={handleMaxSalaryChange}
-                      className="w-full text-[#404040] border-2 border-[#E0E0E0] rounded-lg pl-10 pr-4 py-2 focus:ring-2 focus:ring-[#01959F] outline-none"
+                      className="w-full text-[#404040] border-2 border-[#E0E0E0] rounded-lg pl-10 pr-4 py-3 md:py-2 focus:ring-2 focus:ring-[#01959F] outline-none"
                     />
                   </div>
                 </div>
@@ -311,46 +293,48 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
                 Minimum Profile Information Required
               </h3>
 
-              {Object.entries(infoStates).map(([key, value]) => {
-                const isLocked = lockedFields.includes(key);
+              <div className="space-y-3">
+                {Object.entries(infoStates).map(([key, value]) => {
+                  const isLocked = lockedFields.includes(key);
 
-                return (
-                  <div
-                    key={key}
-                    className="flex items-center justify-between py-2 p-5 pt-5 pb-5 border-b border-b-[#EDEDED] last:border-b-0 mb-2 mt-2"
-                  >
-                    <span className="capitalize text-[#404040]">
-                      {key.replace(/([A-Z])/g, " $1")}
-                    </span>
-                    <div className="flex gap-2">
-                      {["Mandatory", "Optional", "Off"].map((option) => {
-                        const isDisabled = isLocked && option !== "Mandatory";
-                        const isActive = value === option;
+                  return (
+                    <div
+                      key={key}
+                      className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-3 border-b border-b-[#EDEDED] last:border-b-0"
+                    >
+                      <span className="capitalize text-[#404040] text-sm sm:text-base">
+                        {key.replace(/([A-Z])/g, " $1")}
+                      </span>
+                      <div className="flex gap-2 flex-wrap">
+                        {["Mandatory", "Optional", "Off"].map((option) => {
+                          const isDisabled = isLocked && option !== "Mandatory";
+                          const isActive = value === option;
 
-                        return (
-                          <button
-                            key={option}
-                            type="button"
-                            onClick={() =>
-                              !isDisabled && handleToggle(key, option)
-                            }
-                            disabled={isDisabled}
-                            className={`px-3 py-1 text-sm rounded-2xl border transition ${
-                              isDisabled
-                                ? "bg-[#F2F2F2] text-gray-400 border-[#E0E0E0] cursor-not-allowed"
-                                : isActive
-                                ? "border-[#01959F] text-[#01959F]"
-                                : "text-[#404040] border-[#E0E0E0] hover:border-[#01959F] hover:text-[#01959F]"
-                            }`}
-                          >
-                            {option}
-                          </button>
-                        );
-                      })}
+                          return (
+                            <button
+                              key={option}
+                              type="button"
+                              onClick={() =>
+                                !isDisabled && handleToggle(key, option)
+                              }
+                              disabled={isDisabled}
+                              className={`px-3 py-1 text-xs sm:text-sm rounded-2xl border transition ${
+                                isDisabled
+                                  ? "bg-[#F2F2F2] text-gray-400 border-[#E0E0E0] cursor-not-allowed"
+                                  : isActive
+                                  ? "border-[#01959F] text-[#01959F] bg-[#F7FEFF]"
+                                  : "text-[#404040] border-[#E0E0E0] hover:border-[#01959F] hover:text-[#01959F]"
+                              }`}
+                            >
+                              {option}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </form>
         </div>
@@ -360,7 +344,7 @@ const CreateJobModal: React.FC<CreateJobModalProps> = ({
           <button
             type="submit"
             onClick={handleSubmit}
-            className="bg-[#01959F] hover:bg-[#017E86] text-white font-medium px-6 py-2 rounded-lg transition"
+            className="bg-[#01959F] hover:bg-[#017E86] text-white font-medium px-6 py-3 md:py-2 rounded-lg transition w-full sm:w-auto"
           >
             Publish Job
           </button>

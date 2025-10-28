@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { ChevronRight, LogOut, User, Building, Loader2 } from "lucide-react";
+import {
+  ChevronRight,
+  LogOut,
+  User,
+  Building,
+  Loader2,
+  Menu,
+  X,
+} from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Header: React.FC = () => {
@@ -7,6 +15,7 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Ambil data user dari localStorage
   const userEmail = localStorage.getItem("userEmail") || "user@example.com";
@@ -40,6 +49,7 @@ const Header: React.FC = () => {
 
   const handleBackToJobList = () => {
     navigate(userType === "admin" ? "/admin" : "/jobs");
+    setIsMobileMenuOpen(false);
   };
 
   const getHeaderTitle = () => {
@@ -62,24 +72,36 @@ const Header: React.FC = () => {
         };
 
   return (
-    <header className="bg-white shadow-sm px-6 py-4 flex justify-between items-center font-['Nunito_Sans']">
+    <header className="bg-white shadow-sm px-4 md:px-6 py-4 flex justify-between items-center font-['Nunito_Sans']">
       {/* Left Section */}
       <div className="flex items-center space-x-2">
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition"
+        >
+          {isMobileMenuOpen ? (
+            <X className="h-5 w-5 text-gray-600" />
+          ) : (
+            <Menu className="h-5 w-5 text-gray-600" />
+          )}
+        </button>
+
         {isManageJobPage ? (
           <>
             <button
               onClick={handleBackToJobList}
-              className="text-[#404040] font-semibold hover:text-gray-900 text-sm border border-gray-300 rounded px-3 py-1 hover:bg-gray-100 transition"
+              className="text-[#404040] font-semibold hover:text-gray-900 text-sm border border-gray-300 rounded px-3 py-1 hover:bg-gray-100 transition hidden sm:block"
             >
               {userType === "admin" ? "Job List" : "Available Jobs"}
             </button>
-            <ChevronRight className="h-4 w-4 text-gray-400" />
+            <ChevronRight className="h-4 w-4 text-gray-400 hidden sm:block" />
             <span className="text-[#404040] font-semibold text-sm border border-gray-300 rounded px-3 py-1 bg-gray-50">
               Manage Candidate
             </span>
           </>
         ) : (
-          <h1 className="text-xl font-semibold text-gray-800">
+          <h1 className="text-lg md:text-xl font-semibold text-gray-800">
             {getHeaderTitle()}
           </h1>
         )}
@@ -99,7 +121,7 @@ const Header: React.FC = () => {
             onClick={() => setShowDropdown(!showDropdown)}
             className="flex items-center space-x-2 focus:outline-none"
           >
-            <div className="w-10 h-10 rounded-full bg-[#01959F] flex items-center justify-center text-white font-semibold">
+            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#01959F] flex items-center justify-center text-white font-semibold text-sm md:text-base">
               {userName.charAt(0).toUpperCase()}
             </div>
           </button>
@@ -128,17 +150,43 @@ const Header: React.FC = () => {
         </div>
       </div>
 
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="absolute top-16 left-0 right-0 bg-white shadow-lg border-t border-gray-200 z-40 md:hidden">
+          <div className="px-4 py-3 border-b border-gray-100">
+            <p className="text-sm font-medium text-gray-800">{userName}</p>
+            <p className="text-sm text-gray-600">{userEmail}</p>
+            <div className="flex items-center gap-2 mt-1">
+              {userInfo.icon}
+              <span className="text-xs text-gray-500 capitalize">
+                {userType} • {userInfo.title}
+              </span>
+            </div>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition border-t border-gray-100"
+          >
+            <LogOut className="h-4 w-4" />
+            Sign Out
+          </button>
+        </div>
+      )}
+
       {/* Overlay */}
-      {showDropdown && (
+      {(showDropdown || isMobileMenuOpen) && (
         <div
-          className="fixed inset-0 z-40"
-          onClick={() => setShowDropdown(false)}
+          className="fixed inset-0 z-30"
+          onClick={() => {
+            setShowDropdown(false);
+            setIsMobileMenuOpen(false);
+          }}
         />
       )}
 
       {/* Logout Loading */}
       {isLoggingOut && (
-        <div className="fixed inset-0 bg-white/90 flex flex-col items-center justify-center z-[9999] transition-all duration-300">
+        <div className="fixed inset-0 bg-white/90 flex flex-col items-center justify-center z-9999 transition-all duration-300">
           <Loader2 className="w-8 h-8 text-[#01959F] animate-spin" />
           <span className="mt-2 text-[#01959F] font-medium">
             Logging out...

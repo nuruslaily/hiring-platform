@@ -36,41 +36,136 @@ const ManageJobPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        Loading...
+        <div className="flex flex-col items-center gap-3">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#01959F]"></div>
+          <p className="text-gray-600">Loading job details...</p>
+        </div>
       </div>
     );
   }
 
   if (!job) {
-    return <EmptyCandidateState />;
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        <EmptyCandidateState />
+      </div>
+    );
   }
 
   return (
     <div className="min-h-screen bg-gray-50 w-full">
       <Header />
 
-      <div className="w-full max-w-6xl mx-auto p-6">
+      <div className="w-full mx-auto p-4 sm:p-6">
         {/* Header Section */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                {job?.jobName}
-              </h1>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
+          <div className="flex items-center gap-3">
+            <div className="bg-[#01959F] rounded-lg w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center">
+              <span className="text-white font-bold text-lg sm:text-xl">
+                {job.jobName.charAt(0).toUpperCase()}
+              </span>
             </div>
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 wrap-break-word">
+                {job.jobName}
+              </h1>
+              <p className="text-gray-500 text-sm sm:text-base mt-1">
+                {candidates.length} candidate
+                {candidates.length !== 1 ? "s" : ""} applied
+              </p>
+            </div>
+          </div>
+
+          {/* Status Badge - Mobile */}
+          <div className="sm:hidden">
+            <span
+              className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                job.status === "active"
+                  ? "bg-green-100 text-green-800"
+                  : job.status === "inactive"
+                  ? "bg-red-100 text-red-800"
+                  : "bg-yellow-100 text-yellow-800"
+              }`}
+            >
+              {job.status.charAt(0).toUpperCase() + job.status.slice(1)}
+            </span>
+          </div>
+
+          {/* Desktop Actions */}
+          <div className="hidden sm:flex items-center gap-3">
+            <span
+              className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                job.status === "active"
+                  ? "bg-green-100 text-green-800"
+                  : job.status === "inactive"
+                  ? "bg-red-100 text-red-800"
+                  : "bg-yellow-100 text-yellow-800"
+              }`}
+            >
+              {job.status.charAt(0).toUpperCase() + job.status.slice(1)}
+            </span>
+          </div>
+        </div>
+
+        {/* Stats Cards - Mobile */}
+        <div className="grid grid-cols-2 gap-3 mb-6 sm:hidden">
+          <div className="bg-white rounded-lg p-3 border border-gray-200">
+            <p className="text-2xl font-bold text-gray-900">
+              {candidates.length}
+            </p>
+            <p className="text-xs text-gray-500">Total</p>
+          </div>
+          <div className="bg-white rounded-lg p-3 border border-gray-200">
+            <p className="text-2xl font-bold text-gray-900">
+              {candidates.filter((c) => c.status === "applied").length}
+            </p>
+            <p className="text-xs text-gray-500">Applied</p>
           </div>
         </div>
 
         {/* Candidates Section */}
-        <div className="bg-white rounded-lg border border-gray-200">
+        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
           {candidates.length > 0 ? (
-            <CandidateTable candidates={candidates} />
+            <div className="overflow-x-auto">
+              <CandidateTable candidates={candidates} />
+            </div>
           ) : (
-            /* Empty State - Sesuai Gambar */
             <EmptyCandidateState />
           )}
         </div>
+
+        {/* Mobile Floating Action Button */}
+        {candidates.length > 0 && (
+          <div className="fixed bottom-6 right-6 sm:hidden">
+            <button className="bg-[#01959F] hover:bg-[#017E86] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-all duration-200">
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
+
+      {/* Loading Overlay */}
+      {loading && (
+        <div className="fixed inset-0 bg-white bg-opacity-80 flex items-center justify-center z-50">
+          <div className="flex flex-col items-center gap-3">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#01959F]"></div>
+            <p className="text-gray-600">Loading...</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

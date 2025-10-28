@@ -12,12 +12,24 @@ import ManageJobPage from "./pages/ManageJobPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthRedirect from "./components/AuthRedirect";
 import ApplyPage from "./pages/ApplyPage";
+import NotificationPage from "./pages/NotificationPage";
+import LoginEmailPage from "./pages/LoginEmailPage";
+import TestingRedirect from "./components/TestingRedirect";
+// import LoginPasswordPage from "./pages/LoginPasswordPage";
 
 function App() {
   return (
     <Router>
       <Routes>
         {/* --- Auth Pages --- */}
+        <Route
+          path="/loginemail"
+          element={
+            <TestingRedirect>
+              <LoginEmailPage />
+            </TestingRedirect>
+          }
+        />
         <Route
           path="/login"
           element={
@@ -59,6 +71,15 @@ function App() {
             <ProtectedRoute>
               <ApplyPage />
             </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/notification"
+          element={
+            <TestingRedirect>
+              <NotificationPage />
+            </TestingRedirect>
           }
         />
 

@@ -20,6 +20,18 @@ const JobPages: React.FC = () => {
 
   const [userName, setUserName] = useState("");
   const [userRole, setUserRole] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check device size
+  useEffect(() => {
+    const checkDevice = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkDevice();
+    window.addEventListener("resize", checkDevice);
+    return () => window.removeEventListener("resize", checkDevice);
+  }, []);
 
   // Check login dan ambil data user
   useEffect(() => {
@@ -122,7 +134,9 @@ const JobPages: React.FC = () => {
             onCreateJob={addNewJob}
           />
 
-          {userRole === "admin" && <CreateJobCard onCreateJob={addNewJob} />}
+          {userRole === "admin" && !isMobile && (
+            <CreateJobCard onCreateJob={addNewJob} />
+          )}
         </div>
       </div>
 
